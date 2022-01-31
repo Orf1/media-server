@@ -20,4 +20,4 @@ This project is a simple media server implementation made in Kotlin and HTML, it
 - /uploads/{id} - Pages where uploaded media can be accessed.
 - /list - Page where all uploads can be listed. (Requires login)
 
-If you want to use this project , please link original and credit this page.
+This project is licensed under the MIT License.
