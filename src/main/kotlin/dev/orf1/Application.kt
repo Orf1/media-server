@@ -23,11 +23,12 @@ import java.util.concurrent.ConcurrentHashMap
 class Application(host: String, port: Int) {
     private val files: ConcurrentHashMap<String, File> = ConcurrentHashMap()
     private val folder = File("uploads/")
-    private val usernameHash = hash("admin")
-    private val passwordHash = hash("orf123")
+    private var usernameHash = hash("admin")
+    private var passwordHash = hash("orf123")
     private val debug = true
 
     init {
+        loadEnv()
         loadFolder()
 
         embeddedServer(Netty, host = host, port = port) {
@@ -181,6 +182,18 @@ class Application(host: String, port: Int) {
             .map { kotlin.random.Random.nextInt(0, charPool.size) }
             .map(charPool::get)
             .joinToString("")
+    }
+
+    private fun loadEnv() {
+        val env = System.getenv()
+        val passwordHashEnv = env["MEDIA_SERVER_PASSWORD_HASH"]
+        val usernameHashEnv = env["MEDIA_SERVER_USERNAME_HASH"]
+        if(passwordHashEnv != null) {
+            passwordHash = passwordHashEnv
+        }
+        if(usernameHashEnv != null) {
+            usernameHash = usernameHashEnv
+        }
     }
 }
 
